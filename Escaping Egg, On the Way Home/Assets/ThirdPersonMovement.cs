@@ -11,14 +11,26 @@ public class ThirdPersonMovement : MonoBehaviour {
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+    float horizontal = 0f;
+    float vertical = 0f;
+    float y = 0f;
 
+    private Rigidbody rigidbodyComponent;
+
+    // Start is called before the first frame update
+    void Start() {
+        rigidbodyComponent = GetComponent<Rigidbody>();
+    }
 
     // Update is called once per frame
     void Update() {
 
         // player movement
-        float horizontal = Input.GetAxisRaw("Horizontal"); // -1 to 1
-        float vertical = Input.GetAxisRaw("Vertical"); // -1 to 1
+        horizontal = Input.GetAxisRaw("Horizontal"); // -1 to 1
+        vertical = Input.GetAxisRaw("Vertical"); // -1 to 1
+        y = rigidbodyComponent.velocity.y;
+
+
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; //0f because we don't want our player to move upwards
 
         if (direction.magnitude >= 0.1f) {
@@ -33,8 +45,20 @@ public class ThirdPersonMovement : MonoBehaviour {
 
             // calculates direction we want to move in taking into account the direction of the camera.
             // i.e. wherever your camera is facing, player will move in that direction as going "forward".
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
-            controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            //controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+
+            transform.Rotate(0, Input.GetAxis("Horizontal") * turnSmoothTime * Time.deltaTime, 0);
+            //Vector3 vel = transform.forward * Input.GetAxis("Vertical") * speed;
+            controller.SimpleMove(moveDirection.normalized * speed);
+
         }
+    }
+
+    private void FixedUpdate() {
+        //y = rigidbodyComponent.velocity.y;
+        rigidbodyComponent.velocity = new Vector3(horizontal, y, 0);
+
     }
 }
