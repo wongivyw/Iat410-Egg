@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour {
 
+    public Animator animator;
+
     //source of camera and player movement: https://www.youtube.com/watch?v=4HpC--2iowE
     public CharacterController controller;
     public Transform cam; //reference to our camera
@@ -34,6 +36,7 @@ public class ThirdPersonMovement : MonoBehaviour {
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; //0f because we don't want our player to move upwards
 
         if (direction.magnitude >= 0.1f) {
+            animator.SetBool("isMoving", true);
             // makes player turn in the direction that it is moving in
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y; // get in radians degrees, also adds rotation of camera on y axis
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
@@ -53,6 +56,8 @@ public class ThirdPersonMovement : MonoBehaviour {
             //Vector3 vel = transform.forward * Input.GetAxis("Vertical") * speed;
             controller.SimpleMove(moveDirection.normalized * speed);
 
+        } else {
+            animator.SetBool("isMoving", false);
         }
     }
 
