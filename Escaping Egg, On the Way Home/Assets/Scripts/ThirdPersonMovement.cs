@@ -6,6 +6,9 @@ public class ThirdPersonMovement : MonoBehaviour {
 
     public Animator animator;
 
+    [SerializeField]public float jumpForce = 12f;
+    public bool isOnGround = true;
+
     //source of camera and player movement: https://www.youtube.com/watch?v=4HpC--2iowE
     public CharacterController controller;
     public Transform cam; //reference to our camera
@@ -59,7 +62,19 @@ public class ThirdPersonMovement : MonoBehaviour {
         } else {
             animator.SetBool("isMoving", false);
         }
+                //jump action
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround) {
+            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
+        }
     }
+
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Surface")){
+            isOnGround = true;
+        }
+    }
+    
 
     private void FixedUpdate() {
         //y = rigidbodyComponent.velocity.y;
