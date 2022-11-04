@@ -30,6 +30,7 @@ public class Score : MonoBehaviour
         {
             //npc score gradually decrease since it come out
             npcScore -= Time.deltaTime*subSpeed;
+            
         }
     }
 }

@@ -40,7 +40,8 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         // player movement
         horizontal = Input.GetAxisRaw("Horizontal"); // -1 to 1
         vertical = Input.GetAxisRaw("Vertical"); // -1 to 1

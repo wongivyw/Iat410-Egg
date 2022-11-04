@@ -27,7 +27,7 @@ public class Npc : MonoBehaviour
         if ((findPos - transform.position).magnitude <= 3f)
         {
 
-            farmerAnimator.SetBool("isFarmerMoving", true);
+            farmerAnimator.SetBool("isFarmerMoving", false);
 
             isFind = true;
             if (nextPos != Vector3.zero)
@@ -38,7 +38,7 @@ public class Npc : MonoBehaviour
             t += Time.deltaTime;
             if (t >= delayTime)
             {
-                if (Score._instance.score <= Score._instance.npcBackScore)
+                if (Score._instance.npcScore <= Score._instance.npcBackScore)
                     nav.SetDestination(startPos);
             }
         } else {
