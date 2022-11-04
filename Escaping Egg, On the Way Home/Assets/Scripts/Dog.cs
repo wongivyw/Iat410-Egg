@@ -10,6 +10,8 @@ public class Dog : MonoBehaviour
     public Transform nowPos;
     public Transform nextPos;
     public float speed;
+
+    public Animator dogAnimator;
     void Start()
     {
         nowPos = roadPos.GetChild(0);
@@ -21,10 +23,13 @@ public class Dog : MonoBehaviour
     void Update()
     {
         Move();
+
     }
 
     void Move()
     {
+        dogAnimator.SetBool("isDogMoving", true);
+
         transform.LookAt(nextPos);
         transform.Translate(transform.forward * Time.deltaTime * speed, Space.World);
         if (Vector3.Distance(transform.position, nextPos.position) <= 0.5)

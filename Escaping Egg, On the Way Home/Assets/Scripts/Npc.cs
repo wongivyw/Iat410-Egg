@@ -9,6 +9,8 @@ public class Npc : MonoBehaviour
     private NavMeshAgent nav;
     private Vector3 findPos;
     private Vector3 startPos;
+
+    public Animator farmerAnimator;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,9 @@ public class Npc : MonoBehaviour
     {
         if ((findPos - transform.position).magnitude <= 3f)
         {
+
+            farmerAnimator.SetBool("isFarmerMoving", true);
+
             isFind = true;
             if (nextPos != Vector3.zero)
             {
@@ -36,6 +41,9 @@ public class Npc : MonoBehaviour
                 if (Score._instance.score <= Score._instance.npcBackScore)
                     nav.SetDestination(startPos);
             }
+        } else {
+            farmerAnimator.SetBool("isFarmerMoving", true);
+
         }
     }
 
